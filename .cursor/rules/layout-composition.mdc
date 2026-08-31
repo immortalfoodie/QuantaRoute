@@ -1,0 +1,42 @@
+---
+description: Layout composition — recompose instead of shrinking content
+globs: src/**/*.{tsx,css}
+alwaysApply: true
+---
+
+# Layout Composition
+
+Do not solve layout problems by shrinking content.
+
+## Principles
+
+1. **Recompose the layout** — change structure, not font size.
+2. **Prioritize primary content** — give routes, metrics, controls, and labels generous space.
+3. **Progressive disclosure** — hide secondary info from the first view.
+4. **Use structure** — tabs, drawers, expandable sections, inspectors, and collapsible panels.
+
+## Never
+
+- Use `text-[9px]`, `text-[10px]`, or smaller for important labels, route info, or controls.
+- Cram three dense sidebars onto one screen when two or a drawer would work.
+- Show every parameter, legend item, and metadata block at once.
+
+## Instead
+
+- **Tabs** for switching between config groups (Setup / Advanced) or panel modes (Layers / Legend).
+- **Drawers / inspectors** for results and node details — open on demand, not always visible.
+- **Collapsible sections** (`Section`) with sensible defaults — advanced params closed by default.
+- **Minimum typography**: editorial labels 12px+, body 13px+, values 14px+.
+
+## Examples
+
+```tsx
+// ❌ BAD — shrinking to fit everything
+<div className="text-[9px] uppercase">Route Summary</div>
+<aside className="w-[260px]">...</aside>
+<aside className="w-[300px]">...</aside>
+
+// ✅ GOOD — recompose with tabs and conditional panels
+<TabBar tabs={[{ id: 'setup', label: 'Setup' }, { id: 'advanced', label: 'Advanced' }]} />
+{currentResult && <ResultsDrawer />}
+```
