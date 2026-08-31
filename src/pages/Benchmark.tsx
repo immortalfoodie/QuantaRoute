@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { BENCHMARK_EVALUATION_BUDGET, useStore } from '../store/useStore';
+import { BENCHMARK_EVALUATION_BUDGET, QPSO_SHOWCASE_SCENARIO, useStore } from '../store/useStore';
 import {
   PageContainer,
   PageHeader,
@@ -8,7 +8,7 @@ import {
 } from '../components/design-system';
 import { chartAxisProps, chartGridProps, chartTooltipStyle } from '../components/design-system';
 import { ALGORITHM_COLORS, ALGORITHM_LABELS, AlgorithmType } from '../engine/types';
-import { Play, Loader2, BarChart2 } from 'lucide-react';
+import { Play, Loader2, BarChart2, TrendingUp, AlertTriangle, Zap } from 'lucide-react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
   ResponsiveContainer,
@@ -17,7 +17,26 @@ import {
 const RANK_ORDER: AlgorithmType[] = ['qpso', 'pso', 'ga', 'aco', 'exact'];
 
 export function Benchmark() {
-  const { benchmarkResults, runBenchmark, isOptimizing, optimizationStatus, benchmarkMode, setBenchmarkMode } = useStore();
+  const {
+    benchmarkResults,
+    runBenchmark,
+    isOptimizing,
+    optimizationStatus,
+    benchmarkMode,
+    benchmarkScenario,
+    setBenchmarkMode,
+    setBenchmarkScenario,
+    prepareQpsoShowcase,
+    triggerQpsoShowcaseIncident,
+    runQpsoShowcase,
+    showcaseStage,
+    showcaseIncidentRoadId,
+    showcaseBaselineBeforeIncident,
+    showcaseCurrentRouteAfterIncident,
+    showcaseOptimizedByQpso,
+    showcaseQpsoBeatsComparison,
+    currentResult,
+  } = useStore();
 
   const handleRun = async () => {
     if (isOptimizing) return;
@@ -43,23 +62,55 @@ export function Benchmark() {
   }, [benchmarkResults]);
 
   const exactResult = benchmarkResults.find(r => r.algorithm === 'exact');
+  const isShowcaseScenario = benchmarkScenario === 'showcase';
+  const scenarioSubtitle = isShowcaseScenario
+    ? `${QPSO_SHOWCASE_SCENARIO.description}. This mode demonstrates QPSO behavior on one selected scenario and is not statistical proof of universal superiority.`
+    : benchmarkMode === 'evaluations'
+      ? `Common evaluation-budget comparison: up to ${BENCHMARK_EVALUATION_BUDGET.toLocaleString()} complete candidate evaluations per algorithm.`
+      : 'Common iteration-based comparison: algorithms run for their configured maximum iterations.';
+
+  const showcaseBaseline = showcaseCurrentRouteAfterIncident;
+  const showcaseOptimized = showcaseOptimizedByQpso ?? (
+    currentResult?.algorithm === 'qpso'
+      ? {
+          fitness: currentResult.fitness,
+          travelTime: currentResult.travelTime,
+          distance: currentResult.totalDistance,
+          congestion: currentResult.congestionCost,
+        }
+      : null
+  );
+  const showcaseImprovement = showcaseBaseline && showcaseOptimized
+    ? {
+        travelTime: ((showcaseBaseline.travelTime - showcaseOptimized.travelTime) / showcaseBaseline.travelTime) * 100,
+        distance: ((showcaseBaseline.distance - showcaseOptimized.distance) / showcaseBaseline.distance) * 100,
+        congestion: ((showcaseBaseline.congestion - showcaseOptimized.congestion) / showcaseBaseline.congestion) * 100,
+      }
+    : null;
 
   return (
     <PageContainer className="h-full overflow-y-auto">
       <PageHeader
         title="Algorithm Benchmark"
-        subtitle={benchmarkMode === 'evaluations' 
-          ? `Evaluation-budget comparison: up to ${BENCHMARK_EVALUATION_BUDGET.toLocaleString()} complete candidate evaluations per algorithm.`
-          : 'Iteration-based comparison: algorithms run for their configured maximum iterations.'}
+        subtitle={scenarioSubtitle}
         action={
           <div className="flex items-center gap-4">
             <select
-              value={benchmarkMode}
-              onChange={(e) => setBenchmarkMode(e.target.value as 'evaluations' | 'iterations')}
+              value={benchmarkScenario}
+              onChange={(e) => setBenchmarkScenario(e.target.value as 'research' | 'showcase')}
               disabled={isOptimizing}
               className="bg-bg-surface border-2 border-border text-[13px] font-semibold text-text-primary px-3 py-1.5 focus:outline-none focus:border-text-primary disabled:opacity-50"
             >
-              <option value="evaluations">Mode: Evaluation Budget (Research Mode)</option>
+              <option value="research">RESEARCH BENCHMARK</option>
+              <option value="showcase">QPSO SHOWCASE</option>
+            </select>
+            <select
+              value={benchmarkMode}
+              onChange={(e) => setBenchmarkMode(e.target.value as 'evaluations' | 'iterations')}
+              disabled={isOptimizing || isShowcaseScenario}
+              className="bg-bg-surface border-2 border-border text-[13px] font-semibold text-text-primary px-3 py-1.5 focus:outline-none focus:border-text-primary disabled:opacity-50"
+            >
+              <option value="evaluations">Mode: Evaluation Budget</option>
               <option value="iterations">Mode: Iteration-based</option>
             </select>
             <PrimaryButton onClick={handleRun} disabled={isOptimizing}>
@@ -72,6 +123,54 @@ export function Benchmark() {
           </div>
         }
       />
+
+      {isShowcaseScenario && (
+        <div className="mb-6 border-2 border-border bg-bg-surface p-4">
+          <div className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-text-muted mb-2">QPSO Showcase</div>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-text-primary">
+            <span><strong>{QPSO_SHOWCASE_SCENARIO.name}</strong></span>
+            <span>Seed: {QPSO_SHOWCASE_SCENARIO.seed}</span>
+            <span>Budget: {QPSO_SHOWCASE_SCENARIO.evaluationBudget.toLocaleString()} evals</span>
+            <span>Traffic: {QPSO_SHOWCASE_SCENARIO.trafficPreset} ({QPSO_SHOWCASE_SCENARIO.trafficLevel})</span>
+            <span>Incident road: {showcaseIncidentRoadId ?? QPSO_SHOWCASE_SCENARIO.incidentRoadId}</span>
+            <span>Objectives: {QPSO_SHOWCASE_SCENARIO.weights.travelTime.toFixed(2)} / {QPSO_SHOWCASE_SCENARIO.weights.distance.toFixed(2)} / {QPSO_SHOWCASE_SCENARIO.weights.congestion.toFixed(2)}</span>
+            <span>QPSO population: {QPSO_SHOWCASE_SCENARIO.algorithmConfig.populationSize}</span>
+            <span>QPSO β: {QPSO_SHOWCASE_SCENARIO.algorithmConfig.explorationParam}</span>
+          </div>
+          <div className="mt-4 grid md:grid-cols-3 gap-3">
+            <PrimaryButton variant="secondary" onClick={prepareQpsoShowcase} disabled={isOptimizing}>
+              <TrendingUp className="w-4 h-4" /> 1) Prepare Curated Scenario
+            </PrimaryButton>
+            <PrimaryButton variant="secondary" onClick={triggerQpsoShowcaseIncident} disabled={isOptimizing || showcaseStage === 'idle'}>
+              <AlertTriangle className="w-4 h-4" /> 2) Trigger Local Traffic Spike
+            </PrimaryButton>
+            <PrimaryButton onClick={runQpsoShowcase} disabled={isOptimizing || showcaseStage === 'idle'}>
+              <Zap className="w-4 h-4" /> 3) Run QPSO
+            </PrimaryButton>
+          </div>
+          <p className="text-[12px] text-text-muted mt-3">
+            Stage: <strong className="text-text-primary">{showcaseStage}</strong>
+          </p>
+          {showcaseBaselineBeforeIncident && (
+            <p className="text-[12px] text-text-muted mt-1">
+              Baseline before incident fitness: <strong className="text-text-primary">{showcaseBaselineBeforeIncident.fitness.toFixed(2)}</strong>
+            </p>
+          )}
+          {showcaseBaseline && showcaseOptimized && showcaseImprovement && (
+            <div className="mt-4 border-2 border-border-subtle p-3 bg-bg-elevated">
+              <div className="label-editorial mb-2">Current Route vs QPSO Optimized Route (actual computed values)</div>
+              <div className="grid md:grid-cols-2 gap-2 text-[13px] text-text-primary">
+                <div>Current route fitness: <strong>{showcaseBaseline.fitness.toFixed(2)}</strong></div>
+                <div>QPSO fitness: <strong>{showcaseOptimized.fitness.toFixed(2)}</strong></div>
+                <div>Travel time improvement: <strong>{showcaseImprovement.travelTime.toFixed(1)}%</strong></div>
+                <div>Distance improvement: <strong>{showcaseImprovement.distance.toFixed(1)}%</strong></div>
+                <div>Congestion improvement: <strong>{showcaseImprovement.congestion.toFixed(1)}%</strong></div>
+              </div>
+              <p className="text-[12px] text-text-muted mt-2">High-quality route generated by QPSO.</p>
+            </div>
+          )}
+        </div>
+      )}
 
       {!benchmarkResults.length && !isOptimizing ? (
         <div className="h-72 flex flex-col items-center justify-center text-text-muted border-2 border-border bg-bg-surface">
@@ -194,6 +293,13 @@ export function Benchmark() {
               })}
               highlightRow={0}
             />
+            {isShowcaseScenario && ranked[0] && (
+              <p className="text-[12px] text-text-muted mt-3 font-medium">
+                {showcaseQpsoBeatsComparison
+                  ? 'BEST OBSERVED: QPSO (selected demonstration scenario).'
+                  : 'QPSO Showcase Result: focus on adaptation quality over current-route baseline.'}
+              </p>
+            )}
             <p className="text-[12px] text-text-muted mt-3 font-medium">
               {benchmarkMode === 'evaluations' 
                 ? 'Evaluation-budget mode: each row is capped at the same number of complete candidate-solution objective evaluations.'

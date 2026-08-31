@@ -49,7 +49,7 @@ export function Sidebar() {
                   <button
                     key={item.id}
                     onClick={() => setPage(item.id)}
-                    className={`relative w-full flex items-center gap-3 px-3 py-3 mb-1 text-left transition-colors cursor-pointer ${
+                    className={`relative w-full flex items-center gap-4 px-3 py-3.5 mb-1 text-left transition-colors cursor-pointer ${
                       active
                         ? 'bg-bg-inverse text-text-inverse font-bold'
                         : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary font-medium'
@@ -58,7 +58,7 @@ export function Sidebar() {
                     {active && (
                       <span className="absolute left-0 top-0 bottom-0 w-1 bg-accent" />
                     )}
-                    <Icon className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
+                    <Icon className="w-[20px] h-[20px] flex-shrink-0" aria-hidden="true" />
                     <span className="text-[14px]">{item.label}</span>
                   </button>
                 );

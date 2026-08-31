@@ -21,6 +21,8 @@ export interface Road {
   freeFlowSpeed: number;   // km/h
   currentSpeed: number;    // km/h
   lanes: number;
+  baseCongestion: number;  // 0..1  (calculated from global preset)
+  incidentCongestion: number; // 0..1 (calculated from local incidents)
   congestion: number;      // 0..1  (0 = free flow, 1 = gridlock)
   isClosed: boolean;
   isMainRoad: boolean;

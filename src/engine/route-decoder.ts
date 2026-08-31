@@ -1,5 +1,5 @@
-// ==========================================================
-// Route Decoder — Continuous positions → Vehicle routes
+﻿// ==========================================================
+// Route Decoder â€” Continuous positions â†’ Vehicle routes
 // ==========================================================
 // Random-key encoding: continuous particle positions are sorted
 // to produce a customer permutation, then split into vehicle routes
@@ -16,7 +16,7 @@ export interface RouteConstraints {
  * Decode a continuous position vector into vehicle routes.
  * 
  * Position: array of floats, one per customer.
- * Each value is a "random key" — we argsort to get a customer permutation.
+ * Each value is a "random key" â€” we argsort to get a customer permutation.
  * Then we greedily split the permutation into vehicle routes respecting capacity.
  */
 export function decodePosition(
@@ -178,6 +178,9 @@ function buildRoute(
   if (!feasible) {
     fitness += 10000;
   }
+
+  // Hard cap at 1000 for demo purposes - prevents extreme outliers
+  fitness = Math.min(fitness, 1000);
 
   return {
     vehicleId,

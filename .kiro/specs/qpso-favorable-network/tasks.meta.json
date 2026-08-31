@@ -1,0 +1,295 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Update configuration constants and add QPSO tuning parameters": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186030141
+      },
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186045185
+      },
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186136723
+      }
+    ],
+    "2.1 Update node multiplier and jitter calculations": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186030271
+      },
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186142434
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186488987
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186562440
+      }
+    ],
+    "3.1 Update `addRoad()` function signature and implementation": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186030387
+      },
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186143455
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186489479
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186563145
+      }
+    ],
+    "3.2 Update diagonal/shortcut road generation loop": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186030490
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186576342
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186665544
+      }
+    ],
+    "3.3 Implement minimum diagonal ratio enforcement": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186030592
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186712697
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186784214
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186911954
+      }
+    ],
+    "4.1 Build node connectivity map": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186030681
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186716784
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186931859
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788187038057
+      }
+    ],
+    "4.2 Sort candidates by connectivity score": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186030790
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186722308
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788187043576
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788188046824
+      }
+    ],
+    "4.3 Implement spatial distribution constraints": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186030888
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186722776
+      }
+    ],
+    "4.4 Implement radial distribution validation": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186031514
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186729030
+      }
+    ],
+    "4.5 Implement district distribution validation": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186031695
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186729787
+      }
+    ],
+    "5. Checkpoint - Ensure core functionality works": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186031872
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186732041
+      }
+    ],
+    "6.1 Implement `isDiagonalRoad()` helper function": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186032056
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186732817
+      }
+    ],
+    "6.2 Implement `validateQPSOFavorableNetwork()` function": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186032317
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186739657
+      }
+    ],
+    "6.3 Implement scaling logic for small networks": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186032507
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186743415
+      }
+    ],
+    "6.4 Call validation function at end of generateNetwork": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186032679
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186748705
+      }
+    ],
+    "7.1 Implement path counting helper function": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186032844
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186752540
+      }
+    ],
+    "8. Final checkpoint - Verify all properties": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186033030
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186755645
+      }
+    ],
+    "9. Update function documentation": [
+      {
+        "executionId": "29591206-5479-4c91-96e5-359caa461eaf",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186033200
+      },
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186757102
+      }
+    ],
+    "2. Enhance grid generation logic": [
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186562573
+      }
+    ],
+    "3. Enhance road generation algorithm": [
+      {
+        "executionId": "2ae1be44-9df3-4d7b-9b4f-fea181f0650f",
+        "chatSessionId": "sess_3f372659-d34c-48cb-a96c-781d744ebed1",
+        "timestamp": 1788186912120
+      }
+    ]
+  }
+}

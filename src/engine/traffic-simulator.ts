@@ -17,41 +17,52 @@ export function applyTrafficPreset(
   const factor = level / 100;
 
   return roads.map(road => {
-    let congestion = 0;
+    let baseCongestion = 0;
     const baseNoise = rng.range(0, 0.15);
 
     switch (preset) {
       case 'free-flow':
-        congestion = baseNoise * 0.3;
+        baseCongestion = baseNoise * 0.3;
         break;
       case 'morning-peak':
-        congestion = road.isMainRoad
+        baseCongestion = road.isMainRoad
           ? factor * rng.range(0.4, 0.85) + baseNoise
           : factor * rng.range(0.1, 0.4) + baseNoise;
         break;
       case 'afternoon':
-        congestion = factor * rng.range(0.15, 0.45) + baseNoise;
+        baseCongestion = factor * rng.range(0.15, 0.45) + baseNoise;
         break;
       case 'evening-peak':
-        congestion = road.isMainRoad
+        baseCongestion = road.isMainRoad
           ? factor * rng.range(0.5, 0.9) + baseNoise
           : factor * rng.range(0.15, 0.5) + baseNoise;
         break;
       case 'heavy-congestion':
-        congestion = factor * rng.range(0.5, 0.95) + baseNoise;
+        baseCongestion = factor * rng.range(0.5, 0.95) + baseNoise;
         break;
       case 'random':
-        congestion = rng.range(0, factor * 0.9) + baseNoise;
+        baseCongestion = rng.range(0, factor * 0.9) + baseNoise;
         break;
     }
 
-    congestion = Math.max(0, Math.min(1, congestion));
+    baseCongestion = Math.max(0, Math.min(1, baseCongestion));
+    
+    // Clear local incidents so they can be replayed cleanly by applyTrafficEvents
+    const incidentCongestion = 0;
+    const isClosed = false;
+    
+    // Effective condition: Base Traffic + Local Incident Modifier
+    const congestion = Math.min(1, baseCongestion + incidentCongestion);
+    
     const speedReduction = 1 - congestion * 0.85; // 85% max speed reduction
     const currentSpeed = Math.max(5, road.freeFlowSpeed * speedReduction);
 
     return {
       ...road,
+      baseCongestion,
+      incidentCongestion,
       congestion,
+      isClosed,
       currentSpeed: Math.round(currentSpeed * 10) / 10,
     };
   });
@@ -64,31 +75,38 @@ export function applyTrafficEvent(
   return roads.map(road => {
     if (road.id !== event.roadId) return road;
 
+    let isClosed = road.isClosed ?? false;
+    let incidentCongestion = road.incidentCongestion ?? 0;
+
     switch (event.type) {
       case 'closure':
-        return { ...road, isClosed: true, congestion: 1, currentSpeed: 0 };
+        isClosed = true;
+        incidentCongestion = 1;
+        break;
       case 'accident':
-        return {
-          ...road,
-          congestion: Math.min(1, road.congestion + event.severity * 0.6),
-          currentSpeed: Math.max(5, road.currentSpeed * (1 - event.severity * 0.7)),
-        };
+        incidentCongestion = Math.min(1, incidentCongestion + event.severity * 0.6);
+        break;
       case 'spike':
-        return {
-          ...road,
-          congestion: Math.min(1, road.congestion + event.severity * 0.4),
-          currentSpeed: Math.max(5, road.currentSpeed * (1 - event.severity * 0.5)),
-        };
+        incidentCongestion = Math.min(1, incidentCongestion + event.severity * 0.4);
+        break;
       case 'restore':
-        return {
-          ...road,
-          isClosed: false,
-          congestion: Math.max(0, road.congestion * 0.3),
-          currentSpeed: road.freeFlowSpeed * 0.85,
-        };
-      default:
-        return road;
+        isClosed = false;
+        incidentCongestion = Math.max(0, incidentCongestion * 0.3);
+        break;
     }
+
+    const baseCongestion = road.baseCongestion ?? 0;
+    const congestion = isClosed ? 1 : Math.min(1, baseCongestion + incidentCongestion);
+    const speedReduction = 1 - congestion * 0.85; // 85% max speed reduction
+    const currentSpeed = isClosed ? 0 : Math.max(5, road.freeFlowSpeed * speedReduction);
+
+    return {
+      ...road,
+      isClosed,
+      incidentCongestion,
+      congestion,
+      currentSpeed: Math.round(currentSpeed * 10) / 10,
+    };
   });
 }
 
