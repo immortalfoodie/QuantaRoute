@@ -124,7 +124,7 @@ export function RouteOptimizer() {
       </aside>
 
       {/* CENTER: Optimization canvas */}
-      <div className="min-h-[300px] sm:min-h-[400px] lg:flex-1 lg:min-h-0 min-w-0 relative border-b-2 lg:border-b-0 lg:border-r-2 border-border">
+      <div className="h-[300px] sm:h-[400px] lg:h-auto lg:flex-1 min-w-0 relative border-b-2 lg:border-b-0 lg:border-r-2 border-border">
         <NetworkCanvas highlightVehicleId={showOptimizedRoutes ? highlightId : null} showVehicles={showOptimizedRoutes} />
 
         <AnimatePresence>

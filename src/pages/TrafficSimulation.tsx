@@ -41,7 +41,7 @@ export function TrafficSimulation() {
   return (
     <div className="lg:h-full flex flex-col lg:flex-row lg:overflow-hidden">
       {/* Main: Live network */}
-      <div className="min-h-[300px] sm:min-h-[400px] lg:flex-1 lg:min-h-0 min-w-0 relative">
+      <div className="h-[300px] sm:h-[400px] lg:h-auto lg:flex-1 lg:min-h-0 min-w-0 relative">
         <NetworkCanvas showVehicles={!!currentResult} />
 
         <FloatingPanel title="Live Network" position="top-left" className="min-w-[160px] sm:min-w-[200px]">

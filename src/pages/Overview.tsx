@@ -38,7 +38,7 @@ export function Overview() {
         </div>
       </header>
 
-      <div className="flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px] relative border-2 border-border mb-6 sm:mb-8 bg-bg-surface">
+      <div className="h-[260px] sm:h-[380px] lg:h-[460px] relative border-2 border-border mb-6 sm:mb-8 bg-bg-surface">
         <NetworkCanvas showZoomControls={false} showVehicles />
 
         <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-bg-surface border-2 border-border p-3 sm:p-4 z-10 shadow-[4px_4px_0_#1a1a1a] max-w-[200px] sm:max-w-none">

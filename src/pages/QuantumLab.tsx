@@ -97,7 +97,7 @@ export function QuantumLab() {
           </div>
         </div>
 
-        <div className="flex-1 min-h-[280px] sm:min-h-[400px] relative border-b-2 border-border">
+        <div className="h-[280px] sm:h-[400px] xl:h-auto xl:flex-1 relative border-b-2 border-border">
           {!hasQPSOResult ? (
             <div className="h-full flex flex-col items-center justify-center text-text-muted gap-5 bg-bg-elevated">
               <Info className="w-12 h-12 opacity-30" />
