@@ -43,32 +43,6 @@ export function FloatingPanel({ title, children, className = '', position = 'top
   );
 }
 
-export function TabBar({ tabs, active, onChange, className = '' }: {
-  tabs: { id: string; label: string }[];
-  active: string;
-  onChange: (id: string) => void;
-  className?: string;
-}) {
-  return (
-    <div className={`flex border-b-2 border-border ${className}`}>
-      {tabs.map(tab => (
-        <button
-          key={tab.id}
-          type="button"
-          onClick={() => onChange(tab.id)}
-          className={`flex-1 px-4 py-3 text-[13px] font-bold uppercase tracking-wide transition-colors ${
-            active === tab.id
-              ? 'bg-bg-inverse text-text-inverse'
-              : 'text-text-muted hover:text-text-primary hover:bg-bg-hover'
-          }`}
-        >
-          {tab.label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 export function Section({ title, children, defaultOpen = true, className = '' }: {
   title: string;
   children: React.ReactNode;

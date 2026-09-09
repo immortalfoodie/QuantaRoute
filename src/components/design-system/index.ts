@@ -1,6 +1,6 @@
 export { PageHeader, PageContainer } from './PageHeader';
 export { Metric, MetricRow } from './Metric';
-export { Panel, FloatingPanel, Section, TabBar } from './Panel';
+export { Panel, FloatingPanel, Section } from './Panel';
 export { StatusIndicator, OptimizationStatus, ProgressIndicator } from './StatusIndicator';
 export { AlgorithmSelector, ParameterGroup, NumberInput, WeightSlider } from './AlgorithmSelector';
 export {

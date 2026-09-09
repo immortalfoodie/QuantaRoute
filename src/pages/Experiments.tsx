@@ -29,7 +29,7 @@ const EXPERIMENTS: ExpPreset[] = [
 ];
 
 export function Experiments() {
-  const { runOptimization, regenerateNetwork, setTrafficPreset, setAlgorithm, optimizationConfig, trafficState } = useStore();
+  const { runOptimization, regenerateNetwork, setTrafficPreset, setAlgorithm } = useStore();
 
   const [selectedId, setSelectedId] = useState(EXPERIMENTS[0].id);
   const [running, setRunning] = useState<string | null>(null);
@@ -43,44 +43,20 @@ export function Experiments() {
     if (running) return;
     setRunning(selected.id);
 
-    const originalState = useStore.getState();
-    const { network, trafficState, optimizationConfig, currentResult, optimizedRoutes, showOptimizedRoutes } = originalState;
+    regenerateNetwork(selected.nodes, selected.customers, selected.vehicles, 123);
+    setTrafficPreset(selected.traffic);
+    setAlgorithm(selected.algo);
 
-    try {
-      regenerateNetwork(selected.nodes, selected.customers, selected.vehicles, 123);
-      setTrafficPreset(selected.traffic);
-      setAlgorithm(selected.algo);
+    await new Promise(r => setTimeout(r, 200));
+    const res = await runOptimization(selected.algo);
 
-      await new Promise(r => setTimeout(r, 200));
-      const res = await runOptimization(selected.algo);
-
-      setResults(prev => ({ ...prev, [selected.id]: res }));
-    } finally {
-      useStore.setState({
-        network,
-        trafficState,
-        optimizationConfig,
-        currentResult,
-        optimizedRoutes,
-        showOptimizedRoutes,
-        isOptimizing: false,
-        optimizationProgress: 0,
-        optimizationStatus: '',
-        liveOptimizationMetrics: null,
-      });
-      setRunning(null);
-    }
+    setResults(prev => ({ ...prev, [selected.id]: res }));
+    setRunning(null);
   };
 
   const handleExport = () => {
     if (!result) return;
-    const exportData = {
-      experiment: selected,
-      configuration: optimizationConfig,
-      trafficState,
-      result
-    };
-    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportData, null, 2));
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(result, null, 2));
     const a = document.createElement('a');
     a.href = dataStr;
     a.download = `experiment_${selectedId}_results.json`;
@@ -116,7 +92,7 @@ export function Experiments() {
               }`}
             >
               <div className="flex items-center gap-2">
-                <span className={`text-[12px] font-mono font-bold ${selectedId === exp.id ? 'text-accent' : 'text-text-muted'}`}>{exp.id}</span>
+                <span className={`text-[11px] font-mono font-bold ${selectedId === exp.id ? 'text-accent' : 'text-text-muted'}`}>{exp.id}</span>
                 {results[exp.id] && <CheckCircle2 className={`w-3.5 h-3.5 ml-auto ${selectedId === exp.id ? 'text-accent-green' : 'text-accent-green'}`} />}
                 {saved.has(exp.id) && <Save className="w-3 h-3 text-accent-blue" />}
               </div>
@@ -169,10 +145,10 @@ export function Experiments() {
               </div>
 
               <div className="flex gap-2 mb-5">
-                <PrimaryButton variant="secondary" onClick={handleExport} className="flex-1">
+                <PrimaryButton variant="secondary" onClick={handleExport} className="flex-1 text-[10px]">
                   <Download className="w-3.5 h-3.5" /> Export JSON
                 </PrimaryButton>
-                <PrimaryButton variant="secondary" onClick={handleSave} className="flex-1">
+                <PrimaryButton variant="secondary" onClick={handleSave} className="flex-1 text-[10px]">
                   <Save className="w-3.5 h-3.5" /> Save Result
                 </PrimaryButton>
               </div>
@@ -192,7 +168,7 @@ export function Experiments() {
                   load: r.load,
                 }))}
               />
-              <p className="text-[12px] text-text-muted mt-3">Client-side demo timing</p>
+              <p className="text-[10px] text-text-muted mt-2 uppercase tracking-wide">Client-side demo timing</p>
             </motion.div>
           )}
         </div>

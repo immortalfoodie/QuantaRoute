@@ -144,8 +144,7 @@ export abstract class BaseOptimizer implements OptimizationAlgorithm {
   optimize(): OptimizationResult {
     const startTime = performance.now();
 
-    const maxSteps = this.config.maxObjectiveEvaluations ?? this.config.maxIterations;
-    for (let i = 0; i < maxSteps; i++) {
+    for (let i = 0; i < this.config.maxIterations; i++) {
       const converged = this.step();
       if (converged) break;
     }

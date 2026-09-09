@@ -150,7 +150,7 @@ export function QuantumLab() {
                 <button
                   key={mark}
                   onClick={() => jumpToIteration(mark + 1)}
-                  className={`px-3 py-1.5 text-[12px] font-bold uppercase border-2 transition-colors ${
+                  className={`px-2 py-1 text-[10px] font-bold uppercase border-2 transition-colors ${
                     (currentFrame?.iteration ?? 0) >= mark + 1
                       ? 'border-border bg-bg-inverse text-text-inverse'
                       : 'border-border-subtle text-text-muted hover:border-border'

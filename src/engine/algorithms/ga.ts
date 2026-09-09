@@ -1,6 +1,8 @@
 // ==========================================================
 // Genetic Algorithm (GA) for VRP
 // ==========================================================
+// Standard GA with tournament selection, single-point crossover,
+// and Gaussian mutation. A fair competitor for benchmarking.
 
 import { AlgorithmType } from '../types';
 import { SeededRandom } from '../random';
@@ -42,10 +44,11 @@ export class GAAlgorithm extends BaseOptimizer {
   step(): boolean {
     if (!this.hasEvaluationBudget()) return true;
     this.iteration++;
-    const mutationRate = 0.1 + 0.15 * (1 - this.iteration / this.config.maxIterations);
+    // Adaptive mutation rate: starts high for exploration, decays for exploitation
+    const mutationRate = 0.15 + 0.25 * (1 - this.iteration / this.config.maxIterations);
     const newPop: Individual[] = [];
 
-    // Elitism: keep best
+    // Elitism: keep best individual
     this.population.sort((a, b) => a.fitness - b.fitness);
     newPop.push({ ...this.population[0], genes: [...this.population[0].genes] });
 
@@ -100,7 +103,7 @@ export class GAAlgorithm extends BaseOptimizer {
   }
 
   private tournamentSelect(): Individual {
-    const size = 3;
+    const size = 3; // Tournament size of 3 for moderate selection pressure
     let best = this.population[this.rng.int(0, this.population.length)];
     for (let i = 1; i < size; i++) {
       const candidate = this.population[this.rng.int(0, this.population.length)];

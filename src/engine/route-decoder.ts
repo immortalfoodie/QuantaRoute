@@ -36,7 +36,8 @@ export function decodePosition(
   const indices = Array.from({ length: n }, (_, i) => i);
   indices.sort((a, b) => (position[a] ?? 0) - (position[b] ?? 0));
 
-  // Greedy split into vehicle routes, keeping leftover demand on the last vehicle
+  // Greedy split into vehicle routes. Open a new vehicle when capacity or
+  // max route duration would be violated; leftover demand stays on the last vehicle.
   const routes: Route[] = [];
   let currentRoute: number[] = [];
   let currentLoad = 0;
@@ -47,7 +48,26 @@ export function decodePosition(
     const wouldOverflow = currentLoad + demand > vehicleCapacity && currentRoute.length > 0;
     const canOpenNewVehicle = vehicleIdx < fleetSize - 1;
 
-    if (wouldOverflow && canOpenNewVehicle) {
+    let wouldViolateDuration = false;
+    if (
+      canOpenNewVehicle
+      && currentRoute.length > 0
+      && constraints?.maxRouteDuration
+    ) {
+      const preview = buildRoute(
+        [...currentRoute, custIdx],
+        customers,
+        vehicleIdx,
+        depotIdx,
+        costMatrix,
+        weights,
+        vehicleCapacity,
+        constraints,
+      );
+      wouldViolateDuration = preview.travelTime > constraints.maxRouteDuration;
+    }
+
+    if ((wouldOverflow || wouldViolateDuration) && canOpenNewVehicle) {
       routes.push(buildRoute(currentRoute, customers, vehicleIdx, depotIdx, costMatrix, weights, vehicleCapacity, constraints));
       vehicleIdx++;
       currentRoute = [];
@@ -178,9 +198,6 @@ function buildRoute(
   if (!feasible) {
     fitness += 10000;
   }
-
-  // Hard cap at 1000 for demo purposes - prevents extreme outliers
-  fitness = Math.min(fitness, 1000);
 
   return {
     vehicleId,

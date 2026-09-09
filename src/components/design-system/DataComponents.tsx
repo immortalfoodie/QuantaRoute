@@ -34,10 +34,10 @@ export function RouteTimeline({ route, network, vehicleCapacity, color, active, 
       style={active && color ? { borderLeftWidth: '4px', borderLeftColor: color } : undefined}
     >
       <div className="flex items-start justify-between gap-4 mb-4">
-        <div className="text-[14px] font-extrabold text-text-primary uppercase tracking-wide">
+        <div className="text-[13px] font-extrabold text-text-primary uppercase tracking-wide">
           Vehicle {route.vehicleId.replace('V', '').padStart(2, '0')}
         </div>
-        <div className="text-right text-[14px] font-mono tabular-nums space-y-0.5">
+        <div className="text-right text-[12px] font-mono tabular-nums space-y-0.5">
           <div className="text-text-primary">{route.travelTime.toFixed(1)} min</div>
           <div className="text-text-muted">{route.distance.toFixed(1)} km</div>
           <div className="text-text-secondary">{route.load} / {vehicleCapacity} cap</div>
@@ -51,7 +51,7 @@ export function RouteTimeline({ route, network, vehicleCapacity, color, active, 
               <div className={`w-2.5 h-2.5 ${nodeId === network.depot ? 'bg-accent' : 'bg-accent-blue'}`} />
               {idx < keyNodes.length - 1 && <div className="w-0.5 h-5 bg-border" />}
             </div>
-            <span className={`text-[14px] font-mono font-semibold ${nodeId === network.depot ? 'text-accent' : 'text-text-primary'}`}>
+            <span className={`text-[13px] font-mono font-semibold ${nodeId === network.depot ? 'text-accent' : 'text-text-primary'}`}>
               {getLabel(nodeId)}
             </span>
           </div>
@@ -73,7 +73,7 @@ export function EventTimeline({ events, className = '' }: {
             <div className={`w-2 h-2 ${i === 0 ? 'bg-accent' : 'bg-border-subtle'}`} />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-[12px] font-mono text-text-muted mb-1 tabular-nums">{event.time}</div>
+            <div className="text-[11px] font-mono text-text-muted mb-1 tabular-nums">{event.time}</div>
             <div className="text-[14px] text-text-primary group-hover:text-text-secondary transition-colors leading-snug">
               {event.message}
             </div>
@@ -146,7 +146,7 @@ export function InspectorPanel({ title, onClose, children }: {
 
 export function TrafficLegend() {
   return (
-    <div className="space-y-3 text-[13px]">
+    <div className="space-y-2 text-[12px]">
       <div className="flex items-center gap-3"><span className="w-8 h-1 bg-accent-green" /><span className="text-text-secondary font-medium">Free Flow</span></div>
       <div className="flex items-center gap-3"><span className="w-8 h-1 bg-accent-yellow" /><span className="text-text-secondary font-medium">Moderate</span></div>
       <div className="flex items-center gap-3"><span className="w-8 h-1 bg-accent-red" /><span className="text-text-secondary font-medium">Congested</span></div>
@@ -165,7 +165,7 @@ export function PrimaryButton({ children, onClick, disabled, loading, variant = 
   variant?: 'primary' | 'secondary' | 'danger';
   className?: string;
 }) {
-  const base = 'px-5 py-2.5 text-[13px] font-bold uppercase tracking-wide transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed border-2';
+  const base = 'px-5 py-2.5 text-[12px] font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed border-2';
   const variants = {
     primary: 'bg-bg-inverse text-text-inverse border-border hover:bg-accent hover:border-accent',
     secondary: 'bg-bg-surface text-text-primary border-border hover:bg-bg-hover shadow-[3px_3px_0_#1a1a1a] hover:shadow-[1px_1px_0_#1a1a1a] hover:translate-x-[2px] hover:translate-y-[2px]',

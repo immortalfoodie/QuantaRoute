@@ -496,6 +496,10 @@ export const useStore = create<AppState>((set, get) => ({
 
     set({ benchmarkResults: [], isOptimizing: true, optimizationStatus: 'Running benchmark...' });
 
+    // Always snapshot the network and config upfront so every algorithm
+    // runs against the exact same frozen state. This prevents the shared-
+    // state mutation bug where runOptimization() would corrupt the network
+    // between algorithm runs.
     const benchConfig: {
       network: NetworkGraph;
       config: OptimizationConfig;
@@ -523,48 +527,42 @@ export const useStore = create<AppState>((set, get) => ({
           };
         })()
       : {
+          // Snapshot the current network and config for research mode
           network: get().network,
-          config: get().optimizationConfig,
+          config: { ...get().optimizationConfig },
           evals: mode === 'evaluations' ? BENCHMARK_EVALUATION_BUDGET : undefined,
         };
 
+    // Run each algorithm using the isolated runScenarioBenchmark()
+    // which creates a fresh optimizer instance without mutating store state.
     for (const algo of algos) {
       set({ optimizationStatus: `Benchmarking ${algo.toUpperCase()}...` });
-      const result = scenario === 'showcase'
-        ? await runScenarioBenchmark(algo, benchConfig.network, benchConfig.config, benchConfig.evals)
-        : await get().runOptimization(algo, benchConfig.evals);
+      // Use isolated benchmark for ALL scenarios — never runOptimization()
+      // which mutates shared store state and corrupts results.
+      const result = await runScenarioBenchmark(
+        algo,
+        benchConfig.network,
+        benchConfig.config,
+        benchConfig.evals,
+      );
       results.push(result);
     }
 
-    // HARDCODE: Make QPSO show the best result after all algorithms run properly
+    // Display the QPSO result as the current optimized routes
     const qpsoResult = results.find(r => r.algorithm === 'qpso');
-    if (qpsoResult && results.length > 1) {
-      // Find the algorithm with the best (lowest) total distance among all results EXCEPT QPSO
-      const otherResults = results.filter(r => r.algorithm !== 'qpso');
-      const bestOtherResult = otherResults.reduce((best, current) => 
-        current.totalDistance < best.totalDistance ? current : best
-      );
-      
-      // Make QPSO's metrics slightly better than the best other algorithm
-      qpsoResult.totalDistance = bestOtherResult.totalDistance * 0.95; // 5% better
-      qpsoResult.fitness = bestOtherResult.fitness * 0.95;
-      qpsoResult.travelTime = bestOtherResult.travelTime * 0.95;
-      qpsoResult.congestionCost = bestOtherResult.congestionCost * 0.95;
-      // Keep QPSO's own routes and history to maintain algorithm identity
-    }
 
     set({
       benchmarkResults: results,
       isOptimizing: false,
-      optimizationStatus: scenario === 'showcase' ? 'QPSO showcase comparison complete' : 'Benchmark complete',
-      showcaseQpsoBeatsComparison: scenario === 'showcase'
-        ? (() => {
-            const qpso = results.find(r => r.algorithm === 'qpso');
-            if (!qpso) return null;
-            // HARDCODE: QPSO always beats comparison due to hardcoded best fitness
-            return true;
-          })()
-        : get().showcaseQpsoBeatsComparison,
+      optimizationStatus: 'Benchmark complete',
+      currentResult: qpsoResult ?? null,
+      optimizedRoutes: qpsoResult?.routes ?? [],
+      showOptimizedRoutes: !!qpsoResult,
+      showcaseQpsoBeatsComparison: (() => {
+        const qpso = results.find(r => r.algorithm === 'qpso');
+        if (!qpso) return null;
+        return results.every(r => r.algorithm === 'qpso' || qpso.fitness <= r.fitness);
+      })(),
     });
   },
 

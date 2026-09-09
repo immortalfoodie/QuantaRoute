@@ -42,7 +42,7 @@ export function KPICard({ title, value, icon: Icon, trend, trendLabel, color = '
         
         {trend !== undefined && (
           <div className="flex flex-col mb-1">
-            <div className={`flex items-center gap-1 text-[12px] font-semibold ${
+            <div className={`flex items-center gap-1 text-[11px] font-semibold ${
               trend > 0 ? 'text-accent-red' : // For routing, higher time/dist is bad
               trend < 0 ? 'text-accent-green' : 'text-text-muted'
             }`}>
@@ -50,7 +50,7 @@ export function KPICard({ title, value, icon: Icon, trend, trendLabel, color = '
                trend < 0 ? <ArrowDown className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
               {Math.abs(trend)}%
             </div>
-            {trendLabel && <span className="text-[12px] text-text-muted">{trendLabel}</span>}
+            {trendLabel && <span className="text-[9px] text-text-muted uppercase">{trendLabel}</span>}
           </div>
         )}
       </div>

@@ -32,7 +32,7 @@ export function AlgorithmSelector({ value, onChange, algorithms = DEFAULT_ALGOS 
             />
             <span className="text-[13px] flex-1">{ALGORITHM_LABELS[algo]}</span>
             {isReference && (
-              <span className="text-[11px] font-bold text-text-muted uppercase tracking-wide px-2 py-0.5 border border-border-subtle">
+              <span className="text-[9px] font-bold text-text-muted uppercase tracking-wider px-1.5 py-0.5 border border-border-subtle">
                 Ref
               </span>
             )}

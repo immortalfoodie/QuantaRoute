@@ -24,13 +24,15 @@ export function TopNav() {
       style={{ height: 'var(--spacing-topbar, 56px)' }}
     >
       <div className="min-w-[140px]">
-        <h2 className="text-[15px] font-bold text-text-primary uppercase tracking-wide">{pageTitle}</h2>
+        <h2 className="text-[13px] font-bold text-text-primary uppercase tracking-wide">{pageTitle}</h2>
       </div>
 
       <div className="flex-1 flex justify-center min-w-0">
         <div className="flex items-center gap-3">
-          <span className="w-2 h-2 bg-accent-green animate-pulse-dot flex-shrink-0" />
-          <span className="text-[13px] font-bold text-text-primary tracking-wide uppercase">Live Simulation</span>
+          <span className="w-2 h-2 bg-accent-green animate-pulse-dot" />
+          <span className="text-[10px] font-bold text-text-primary tracking-[0.15em] uppercase">Live Simulation</span>
+          <span className="text-[10px] text-text-muted hidden sm:inline">·</span>
+          <span className="text-[10px] text-text-muted hidden sm:inline truncate font-medium">Mumbai Smart Logistics · Synthetic Data</span>
         </div>
       </div>
 
@@ -71,7 +73,7 @@ function MetaItem({ label, value, mono, variant, icon }: {
   return (
     <div className="hidden md:flex flex-col items-end">
       <span className="label-editorial">{label}</span>
-      <div className={`flex items-center gap-1 text-[13px] font-semibold tabular-nums ${colorClass} ${mono ? 'font-mono' : ''}`}>
+      <div className={`flex items-center gap-1 text-[12px] font-semibold tabular-nums ${colorClass} ${mono ? 'font-mono' : ''}`}>
         {icon}
         {value}
       </div>

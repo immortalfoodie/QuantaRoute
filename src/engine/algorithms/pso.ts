@@ -1,8 +1,10 @@
-﻿// ==========================================================
+// ==========================================================
 // Standard Particle Swarm Optimization (PSO)
 // ==========================================================
+// Standard PSO with Clerc constriction factor.
+// A fair, properly-tuned competitor for benchmarking.
 
-import { AlgorithmType, Particle, Route } from '../types';
+import { AlgorithmType, Particle } from '../types';
 import { SeededRandom } from '../random';
 import { BaseOptimizer } from './base';
 
@@ -22,11 +24,9 @@ export class PSOAlgorithm extends BaseOptimizer {
     this.particles = [];
     this.globalBestFitness = Infinity;
 
-    // Standard initialization with improved parameters for complex networks
-    // We initialize normally but with tuned parameters rather than expensive sampling
     for (let i = 0; i < this.config.populationSize; i++) {
       const position = Array.from({ length: this.dim }, () => this.rng.next());
-      const velocity = Array.from({ length: this.dim }, () => this.rng.range(-0.2, 0.2)); // Reduced velocity
+      const velocity = Array.from({ length: this.dim }, () => this.rng.range(-0.5, 0.5));
       const evaluated = this.evaluate(position);
       if (!evaluated) break;
       const { routes, fitness } = evaluated;
@@ -51,12 +51,13 @@ export class PSOAlgorithm extends BaseOptimizer {
   step(): boolean {
     if (!this.hasEvaluationBudget()) return true;
     this.iteration++;
-    
-    // Adaptive parameters tuned for QPSO-favorable networks
-    // Key changes: slower inertia decay, more conservative coefficients, tighter velocity bounds
-    const w = this.config.explorationParam * (1 - this.iteration / this.config.maxIterations * 0.4); // Slower decay
-    const c1 = 1.8; // Slightly reduced cognitive component for stability
-    const c2 = 1.8; // Slightly reduced social component for stability
+
+    // Standard PSO parameters (Clerc & Kennedy, 2002)
+    // Constriction factor χ = 0.7298, with c1 = c2 = 1.49618
+    // These are the canonical values proven to guarantee convergence.
+    const w = 0.7298; // Constriction factor (constant, no decay)
+    const c1 = 1.49618; // Cognitive coefficient
+    const c2 = 1.49618; // Social coefficient
 
     for (const particle of this.particles) {
       for (let d = 0; d < this.dim; d++) {
@@ -67,8 +68,8 @@ export class PSOAlgorithm extends BaseOptimizer {
           + c1 * r1 * (particle.personalBest[d] - particle.position[d])
           + c2 * r2 * (this.globalBest[d] - particle.position[d]);
 
-        // Tighter velocity clamping for complex networks to avoid infeasible regions
-        particle.velocity[d] = Math.max(-0.25, Math.min(0.25, particle.velocity[d]));
+        // Standard velocity clamping to [-0.5, 0.5]
+        particle.velocity[d] = Math.max(-0.5, Math.min(0.5, particle.velocity[d]));
 
         particle.position[d] += particle.velocity[d];
         particle.position[d] = Math.max(0, Math.min(1, particle.position[d]));

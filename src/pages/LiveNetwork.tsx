@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/useStore';
 import { NetworkCanvas } from '../components/network/NetworkCanvas';
-import { FloatingPanel, TrafficLegend, InspectorPanel, TabBar } from '../components/design-system';
+import { FloatingPanel, TrafficLegend, InspectorPanel } from '../components/design-system';
 import { getCongestionLabel } from '../engine/traffic-simulator';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type Layer = 'network' | 'traffic' | 'routes' | 'vehicles';
-type PanelTab = 'layers' | 'legend';
 
 export function LiveNetwork() {
   const {
@@ -23,7 +22,6 @@ export function LiveNetwork() {
 
   const [activeLayers, setActiveLayers] = useState<Set<Layer>>(new Set(['network', 'traffic', 'routes', 'vehicles']));
   const [showVehicleLayer, setShowVehicleLayer] = useState(true);
-  const [panelTab, setPanelTab] = useState<PanelTab>('layers');
 
   const node = selectedNode ? network.nodes.find(n => n.id === selectedNode) : null;
   const road = selectedRoad ? network.roads.find(r => r.id === selectedRoad) : null;
@@ -56,42 +54,32 @@ export function LiveNetwork() {
     <div className="w-full h-full relative bg-bg-primary">
       <NetworkCanvas showVehicles={vehiclesActive} />
 
-      <FloatingPanel position="top-left" className="min-w-[200px] p-0 overflow-hidden">
-        <TabBar
-          tabs={[
-            { id: 'layers', label: 'Layers' },
-            { id: 'legend', label: 'Legend' },
-          ]}
-          active={panelTab}
-          onChange={id => setPanelTab(id as PanelTab)}
-        />
-        <div className="p-4">
-          {panelTab === 'layers' && (
-            <div className="space-y-1">
-              {(['network', 'traffic', 'routes', 'vehicles'] as Layer[]).map(layer => {
-                const isActive = layer === 'routes' ? routesActive
-                  : layer === 'vehicles' ? vehiclesActive
-                  : activeLayers.has(layer);
-                return (
-                  <button
-                    key={layer}
-                    type="button"
-                    onClick={() => toggleLayer(layer)}
-                    disabled={layer === 'routes' && !currentResult}
-                    className={`w-full text-left px-3 py-2.5 text-[14px] capitalize font-medium transition-colors border-2 ${
-                      isActive
-                        ? 'border-border bg-bg-inverse text-text-inverse'
-                        : 'border-transparent text-text-muted hover:text-text-primary hover:bg-bg-hover'
-                    } disabled:opacity-40 disabled:cursor-not-allowed`}
-                  >
-                    {layer}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-          {panelTab === 'legend' && <TrafficLegend />}
+      <FloatingPanel title="Layers" position="top-left" className="min-w-[170px]">
+        <div className="space-y-0.5">
+          {(['network', 'traffic', 'routes', 'vehicles'] as Layer[]).map(layer => {
+            const isActive = layer === 'routes' ? routesActive
+              : layer === 'vehicles' ? vehiclesActive
+              : activeLayers.has(layer);
+            return (
+              <button
+                key={layer}
+                onClick={() => toggleLayer(layer)}
+                disabled={layer === 'routes' && !currentResult}
+                className={`w-full text-left px-2 py-2 text-[13px] capitalize font-medium transition-colors border-2 ${
+                  isActive
+                    ? 'border-border bg-bg-inverse text-text-inverse'
+                    : 'border-transparent text-text-muted hover:text-text-primary hover:bg-bg-hover'
+                } disabled:opacity-40 disabled:cursor-not-allowed`}
+              >
+                {layer}
+              </button>
+            );
+          })}
         </div>
+      </FloatingPanel>
+
+      <FloatingPanel title="Legend" position="bottom-left">
+        <TrafficLegend />
       </FloatingPanel>
 
       <AnimatePresence>
@@ -108,7 +96,7 @@ export function LiveNetwork() {
               onClose={() => { setSelectedNode(null); setSelectedRoad(null); }}
             >
               {node && (
-                <div className="space-y-4 text-[14px]">
+                <div className="space-y-3 text-[13px]">
                   <Row label="Type" value={node.type} />
                   <Row label="Coordinates" value={`${Math.round(node.x)}, ${Math.round(node.y)}`} mono />
                   <Row label="District" value={node.district || '—'} />
@@ -119,9 +107,9 @@ export function LiveNetwork() {
                         value={`${network.customers.find(c => c.nodeId === node.id)?.demand ?? 0} units`}
                       />
                       {selectedVehicleRoute && (
-                        <div className="pt-4 border-t-2 border-border-subtle">
+                        <div className="pt-3 border-t-2 border-border-subtle">
                           <div className="label-editorial mb-2">Assigned Route</div>
-                          <div className="font-mono text-[14px] font-bold text-text-primary">
+                          <div className="font-mono text-[12px] text-text-primary">
                             Vehicle {selectedVehicleRoute.vehicleId.replace('V', '').padStart(2, '0')}
                           </div>
                         </div>
@@ -134,15 +122,15 @@ export function LiveNetwork() {
                 </div>
               )}
               {road && (
-                <div className="space-y-4 text-[14px]">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="flex-1 h-2.5 bg-bg-hover border border-border overflow-hidden">
+                <div className="space-y-3 text-[13px]">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="flex-1 h-2 bg-bg-hover border border-border overflow-hidden">
                       <div
                         className={`h-full ${road.congestion > 0.6 ? 'bg-accent-red' : road.congestion > 0.3 ? 'bg-accent-yellow' : 'bg-accent-green'}`}
                         style={{ width: `${Math.max(5, road.congestion * 100)}%` }}
                       />
                     </div>
-                    <span className="font-mono text-[14px] font-bold">{Math.round(road.congestion * 100)}%</span>
+                    <span className="font-mono text-[12px] font-bold">{Math.round(road.congestion * 100)}%</span>
                   </div>
                   <Row label="Road ID" value={road.id} mono />
                   <Row
@@ -166,7 +154,7 @@ export function LiveNetwork() {
 
 function Row({ label, value, mono, warn }: { label: string; value: string; mono?: boolean; warn?: boolean }) {
   return (
-    <div className="flex justify-between border-b border-border-subtle pb-3 last:border-0">
+    <div className="flex justify-between border-b border-border-subtle pb-2 last:border-0">
       <span className="text-text-muted font-medium">{label}</span>
       <span className={`${mono ? 'font-mono font-bold' : 'font-semibold'} ${warn ? 'text-accent-red' : 'text-text-primary'}`}>{value}</span>
     </div>

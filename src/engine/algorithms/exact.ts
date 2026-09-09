@@ -113,7 +113,7 @@ export class ReferenceHeuristic extends BaseOptimizer {
     this.bestRoutes = nnRoutes;
     this.convergenceHistory.push(this.bestFitness);
 
-    for (let iter = 0; iter < 500; iter++) {
+    for (let iter = 0; iter < 50; iter++) {
       if (!this.hasEvaluationBudget()) break;
       const i = this.rng.int(0, n);
       const j = this.rng.int(0, n);
