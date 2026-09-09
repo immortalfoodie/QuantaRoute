@@ -1,15 +1,68 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '../../store/useStore';
 import { NAV_ITEMS, NAV_GROUPS } from '../design-system';
 
-export function Sidebar() {
+interface SidebarProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export function Sidebar({ open, onClose }: SidebarProps) {
   const { currentPage, setPage, isOptimizing } = useStore();
 
+  const handleNavClick = (pageId: string) => {
+    setPage(pageId);
+    onClose(); // Auto-close sidebar on mobile
+  };
+
   return (
-    <aside
-      className="flex flex-col flex-shrink-0 h-full border-r-2 border-border bg-bg-secondary"
-      style={{ width: 'var(--spacing-sidebar, 236px)' }}
-    >
+    <>
+      {/* Desktop sidebar — always visible at lg+ */}
+      <aside
+        className="hidden lg:flex flex-col flex-shrink-0 h-full border-r-2 border-border bg-bg-secondary"
+        style={{ width: 'var(--spacing-sidebar, 236px)' }}
+      >
+        <SidebarContent
+          currentPage={currentPage}
+          isOptimizing={isOptimizing}
+          onNavClick={handleNavClick}
+        />
+      </aside>
+
+      {/* Mobile sidebar — off-canvas drawer */}
+      <AnimatePresence>
+        {open && (
+          <motion.aside
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+            className="fixed inset-y-0 left-0 z-50 flex flex-col w-[280px] max-w-[85vw] bg-bg-secondary border-r-2 border-border shadow-[6px_0_20px_rgba(0,0,0,0.15)] lg:hidden"
+          >
+            <SidebarContent
+              currentPage={currentPage}
+              isOptimizing={isOptimizing}
+              onNavClick={handleNavClick}
+            />
+          </motion.aside>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+function SidebarContent({
+  currentPage,
+  isOptimizing,
+  onNavClick,
+}: {
+  currentPage: string;
+  isOptimizing: boolean;
+  onNavClick: (id: string) => void;
+}) {
+  return (
+    <>
       <div className="px-5 py-5 border-b-2 border-border">
         <div className="flex items-start gap-3">
           <div className="w-10 h-10 bg-bg-inverse flex items-center justify-center flex-shrink-0">
@@ -35,7 +88,7 @@ export function Sidebar() {
                 return (
                   <button
                     key={item.id}
-                    onClick={() => setPage(item.id)}
+                    onClick={() => onNavClick(item.id)}
                     className={`relative w-full flex items-center gap-2 px-3 py-2.5 mb-0.5 text-left transition-colors cursor-pointer ${
                       active
                         ? 'bg-bg-inverse text-text-inverse font-bold'
@@ -62,7 +115,7 @@ export function Sidebar() {
           <HealthRow label="Optimizer" value={isOptimizing ? 'RUNNING' : 'READY'} ok={!isOptimizing} warn={isOptimizing} />
         </div>
       </div>
-    </aside>
+    </>
   );
 }
 

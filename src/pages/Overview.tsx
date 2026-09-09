@@ -20,15 +20,15 @@ export function Overview() {
 
   return (
     <PageContainer className="flex flex-col h-full overflow-y-auto">
-      <header className="mb-8">
-        <div className="label-editorial mb-3">Quantum-Inspired Transportation Platform</div>
-        <h1 className="text-[40px] font-extrabold text-text-primary tracking-tight leading-[1.05] uppercase max-w-3xl">
+      <header className="mb-6 sm:mb-8">
+        <div className="label-editorial mb-2 sm:mb-3">Quantum-Inspired Transportation Platform</div>
+        <h1 className="text-[28px] sm:text-[36px] lg:text-[40px] font-extrabold text-text-primary tracking-tight leading-[1.05] uppercase max-w-3xl">
           Quantum-Inspired<br />Routing for Dynamic Cities
         </h1>
-        <p className="text-[15px] text-text-secondary mt-4 max-w-xl leading-relaxed">
+        <p className="text-[14px] sm:text-[15px] text-text-secondary mt-3 sm:mt-4 max-w-xl leading-relaxed">
           Optimize transportation routes under changing traffic conditions using quantum-inspired metaheuristic search.
         </p>
-        <div className="flex gap-3 mt-6">
+        <div className="flex flex-col sm:flex-row gap-3 mt-5 sm:mt-6">
           <PrimaryButton variant="secondary" onClick={() => setPage('network')}>
             Explore Network <ArrowRight className="w-4 h-4" />
           </PrimaryButton>
@@ -38,12 +38,12 @@ export function Overview() {
         </div>
       </header>
 
-      <div className="flex-1 min-h-[380px] lg:min-h-[460px] relative border-2 border-border mb-8 bg-bg-surface">
+      <div className="flex-1 min-h-[260px] sm:min-h-[380px] lg:min-h-[460px] relative border-2 border-border mb-6 sm:mb-8 bg-bg-surface">
         <NetworkCanvas showZoomControls={false} showVehicles />
 
-        <div className="absolute top-4 left-4 bg-bg-surface border-2 border-border p-4 z-10 shadow-[4px_4px_0_#1a1a1a]">
-          <div className="label-editorial mb-3">Network Summary</div>
-          <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+        <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-bg-surface border-2 border-border p-3 sm:p-4 z-10 shadow-[4px_4px_0_#1a1a1a] max-w-[200px] sm:max-w-none">
+          <div className="label-editorial mb-2 sm:mb-3">Network Summary</div>
+          <div className="grid grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-1.5 sm:gap-y-2">
             <Stat label="Nodes" value={network.nodes.length} />
             <Stat label="Roads" value={network.roads.length} />
             <Stat label="Deliveries" value={network.customers.length} />
@@ -51,7 +51,8 @@ export function Overview() {
           </div>
         </div>
 
-        <div className="absolute top-4 right-4 bg-bg-inverse text-text-inverse border-2 border-border p-4 z-10">
+        {/* System State — hidden on small mobile to avoid overlap */}
+        <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-bg-inverse text-text-inverse border-2 border-border p-3 sm:p-4 z-10 hidden sm:block">
           <div className="label-editorial mb-2 text-text-muted">System State</div>
           <div className="space-y-1.5 text-[12px] font-bold uppercase tracking-wide">
             <div>Traffic: {getCongestionLabel(avgCongestion)} ({trafficState.level}%)</div>
@@ -84,9 +85,9 @@ export function Overview() {
         ]}
       />
 
-      <section className="mt-8">
-        <h2 className="label-editorial mb-4">Recent System Events</h2>
-        <div className="border-2 border-border bg-bg-surface p-4">
+      <section className="mt-6 sm:mt-8">
+        <h2 className="label-editorial mb-3 sm:mb-4">Recent System Events</h2>
+        <div className="border-2 border-border bg-bg-surface p-3 sm:p-4">
           <EventTimeline events={eventLog.slice(0, 8)} />
         </div>
       </section>
@@ -97,8 +98,8 @@ export function Overview() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div>
-      <span className="text-[12px] text-text-muted font-medium">{label}</span>
-      <span className="ml-2 font-mono text-[16px] font-bold text-text-primary tabular-nums">{value}</span>
+      <span className="text-[11px] sm:text-[12px] text-text-muted font-medium">{label}</span>
+      <span className="ml-1.5 sm:ml-2 font-mono text-[14px] sm:text-[16px] font-bold text-text-primary tabular-nums">{value}</span>
     </div>
   );
 }

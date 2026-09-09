@@ -39,12 +39,12 @@ export function TrafficSimulation() {
   };
 
   return (
-    <div className="h-full flex flex-col lg:flex-row overflow-hidden">
+    <div className="lg:h-full flex flex-col lg:flex-row lg:overflow-hidden">
       {/* Main: Live network */}
-      <div className="flex-1 min-w-0 relative">
+      <div className="min-h-[300px] sm:min-h-[400px] lg:flex-1 lg:min-h-0 min-w-0 relative">
         <NetworkCanvas showVehicles={!!currentResult} />
 
-        <FloatingPanel title="Live Network" position="top-left" className="min-w-[200px]">
+        <FloatingPanel title="Live Network" position="top-left" className="min-w-[160px] sm:min-w-[200px]">
           <div className="text-[12px] text-text-muted font-medium mb-2">Global level: {trafficState.level}%</div>
           <div className="text-[14px] font-bold text-text-primary">{Math.round(avgCongestion * 100)}% avg congestion</div>
           {closedRoads > 0 && (
@@ -54,7 +54,7 @@ export function TrafficSimulation() {
       </div>
 
       {/* Right: Controls */}
-      <aside className="w-full lg:w-[340px] flex-shrink-0 border-l-2 border-border bg-bg-secondary overflow-y-auto">
+      <aside className="w-full lg:w-[340px] flex-shrink-0 border-t-2 lg:border-t-0 lg:border-l-2 border-border bg-bg-secondary lg:overflow-y-auto">
         <div className="p-5 border-b-2 border-border">
           <h2 className="text-[16px] font-extrabold text-text-primary uppercase tracking-wide">Traffic Controls</h2>
           <p className="text-[12px] text-text-muted mt-1">Adjust conditions and inject events</p>

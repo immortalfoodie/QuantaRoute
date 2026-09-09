@@ -83,21 +83,21 @@ export function QuantumLab() {
   };
 
   return (
-    <div className="h-full flex flex-col xl:flex-row overflow-hidden">
+    <div className="xl:h-full flex flex-col xl:flex-row xl:overflow-hidden">
       <div className="flex-1 min-w-0 flex flex-col bg-bg-primary">
         <div className="px-6 py-5 border-b-2 border-border bg-bg-secondary">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-3 sm:gap-4">
             <div>
-              <h1 className="text-[24px] font-extrabold text-text-primary uppercase tracking-tight">Quantum Search Space</h1>
+              <h1 className="text-[20px] sm:text-[24px] font-extrabold text-text-primary uppercase tracking-tight">Quantum Search Space</h1>
               <p className="text-[13px] text-text-secondary mt-1">2D projection of particle swarm dynamics during QPSO optimization</p>
             </div>
-            <div className="bg-accent-yellow/20 border-2 border-accent-yellow px-4 py-2.5 text-[12px] font-bold uppercase tracking-wide text-text-primary">
+            <div className="bg-accent-yellow/20 border-2 border-accent-yellow px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-[12px] font-bold uppercase tracking-wide text-text-primary flex-shrink-0">
               Runs on classical hardware
             </div>
           </div>
         </div>
 
-        <div className="flex-1 min-h-[400px] relative border-b-2 border-border">
+        <div className="flex-1 min-h-[280px] sm:min-h-[400px] relative border-b-2 border-border">
           {!hasQPSOResult ? (
             <div className="h-full flex flex-col items-center justify-center text-text-muted gap-5 bg-bg-elevated">
               <Info className="w-12 h-12 opacity-30" />
@@ -145,7 +145,7 @@ export function QuantumLab() {
               <span>Fitness <span className="font-mono font-bold">{currentFrame?.fitness.toFixed(2) ?? 0}</span></span>
             </div>
 
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center flex-wrap gap-2 mb-3">
               {TIMELINE_MARKS.map(mark => (
                 <button
                   key={mark}
@@ -180,7 +180,7 @@ export function QuantumLab() {
         )}
       </div>
 
-      <aside className="w-full xl:w-[400px] flex-shrink-0 border-l-2 border-border bg-bg-secondary overflow-y-auto">
+      <aside className="w-full xl:w-[400px] flex-shrink-0 border-t-2 xl:border-t-0 xl:border-l-2 border-border bg-bg-secondary xl:overflow-y-auto">
         <div className="p-5 border-b-2 border-border">
           <div className="label-editorial">Explain the Current Step</div>
           <p className="text-[13px] text-text-secondary mt-2 leading-relaxed">

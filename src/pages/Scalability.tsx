@@ -162,13 +162,13 @@ export function Scalability() {
             </ChartPanel>
           </div>
 
-          <div className="border-2 border-border bg-bg-surface p-6">
+          <div className="border-2 border-border bg-bg-surface p-4 sm:p-6">
             <h3 className="text-[14px] font-extrabold text-text-primary mb-1 uppercase tracking-wide">Problem Complexity</h3>
             <p className="text-[12px] text-text-muted mb-5">Observed computational growth across increasing customer counts</p>
 
-            <div className="flex gap-2 mb-5">
+            <div className="flex flex-wrap gap-2 mb-5">
               {PROBLEM_SIZES.map(size => (
-                <div key={size} className="flex-1 text-center py-2 border-2 border-border-subtle text-[12px] font-bold font-mono">
+                <div key={size} className="flex-1 min-w-[40px] text-center py-2 border-2 border-border-subtle text-[12px] font-bold font-mono">
                   {size}
                 </div>
               ))}
@@ -178,7 +178,7 @@ export function Scalability() {
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={results} margin={{ top: 8, right: 16, left: 0, bottom: 20 }}>
                   <CartesianGrid {...chartGridProps} />
-                  <XAxis dataKey="label" {...chartAxisProps} label={{ value: 'Customers', position: 'bottom', fill: '#737373', fontSize: 11 }} />
+                  <XAxis dataKey="label" {...chartAxisProps} label={{ value: 'Customers', position: 'bottom', fill: '#737373', fontSize: 11, offset: 0 }} />
                   <YAxis yAxisId="left" {...chartAxisProps} width={52} />
                   <YAxis yAxisId="right" orientation="right" {...chartAxisProps} width={52} />
                   <RechartsTooltip contentStyle={chartTooltipStyle} />

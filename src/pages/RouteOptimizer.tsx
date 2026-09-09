@@ -55,9 +55,9 @@ export function RouteOptimizer() {
     : cfg.algorithmConfig.explorationParam;
 
   return (
-    <div className="h-full flex flex-col lg:flex-row overflow-hidden">
+    <div className="lg:h-full flex flex-col lg:flex-row lg:overflow-hidden">
       {/* LEFT: Configuration */}
-      <aside className="w-full lg:w-[260px] xl:w-[280px] flex-shrink-0 border-r-2 border-border bg-bg-secondary overflow-y-auto">
+      <aside className="w-full lg:w-[260px] xl:w-[280px] flex-shrink-0 border-b-2 lg:border-b-0 lg:border-r-2 border-border bg-bg-secondary lg:overflow-y-auto">
         <div className="p-4 border-b-2 border-border bg-bg-elevated">
           <div className="label-editorial mb-1">Algorithm</div>
           <div className="text-[14px] font-extrabold text-text-primary uppercase">{cfg.algorithm}</div>
@@ -124,7 +124,7 @@ export function RouteOptimizer() {
       </aside>
 
       {/* CENTER: Optimization canvas */}
-      <div className="flex-1 min-w-0 relative border-r-2 border-border">
+      <div className="min-h-[300px] sm:min-h-[400px] lg:flex-1 lg:min-h-0 min-w-0 relative border-b-2 lg:border-b-0 lg:border-r-2 border-border">
         <NetworkCanvas highlightVehicleId={showOptimizedRoutes ? highlightId : null} showVehicles={showOptimizedRoutes} />
 
         <AnimatePresence>
@@ -133,7 +133,7 @@ export function RouteOptimizer() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 12 }}
-              className="absolute bottom-4 left-4 right-4 lg:right-auto lg:max-w-md bg-bg-inverse text-text-inverse border-2 border-border p-5 z-10 shadow-[6px_6px_0_#7c3aed]"
+              className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 lg:right-auto lg:max-w-md bg-bg-inverse text-text-inverse border-2 border-border p-3 sm:p-5 z-10 shadow-[6px_6px_0_#7c3aed]"
             >
               <div className="label-editorial mb-3 text-text-muted">Optimization Running</div>
               <ProgressIndicator
@@ -155,7 +155,7 @@ export function RouteOptimizer() {
       </div>
 
       {/* RIGHT: Summary */}
-      <aside className="w-full lg:w-[300px] xl:w-[320px] flex-shrink-0 bg-bg-secondary overflow-y-auto">
+      <aside className="w-full lg:w-[300px] xl:w-[320px] flex-shrink-0 bg-bg-secondary lg:overflow-y-auto">
         <div className="p-5 border-b-2 border-border">
           <OptimizationStatus
             status={optStatus}

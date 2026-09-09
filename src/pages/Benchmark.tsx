@@ -69,7 +69,7 @@ export function Benchmark() {
         <div className="space-y-8">
           <div className="flex flex-col xl:flex-row gap-0 min-h-[440px] border-2 border-border">
             {/* Convergence chart — 70% */}
-            <div className="flex-[7] min-h-[380px] p-6 flex flex-col border-b-2 xl:border-b-0 xl:border-r-2 border-border bg-bg-surface">
+            <div className="flex-[7] min-h-[300px] sm:min-h-[380px] p-4 sm:p-6 flex flex-col border-b-2 xl:border-b-0 xl:border-r-2 border-border bg-bg-surface">
               <h3 className="text-[14px] font-extrabold text-text-primary mb-1 uppercase tracking-wide">Convergence Profile</h3>
               <p className="text-[12px] text-text-muted mb-5">Fitness improvement over iterations</p>
               <div className="flex-1 min-h-[320px]">
@@ -102,7 +102,7 @@ export function Benchmark() {
             </div>
 
             {/* Ranking — 30% */}
-            <div className="flex-[3] p-6 bg-bg-elevated">
+            <div className="flex-[3] p-4 sm:p-6 bg-bg-elevated">
               <h3 className="text-[14px] font-extrabold text-text-primary mb-5 uppercase tracking-wide">Algorithm Ranking</h3>
               <div className="space-y-1">
                 {RANK_ORDER.map((algo) => {

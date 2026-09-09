@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sidebar } from './Sidebar';
 import { TopNav } from './TopNav';
@@ -32,12 +32,37 @@ export function AppShell() {
   const PageComponent = PAGES[currentPage] || Overview;
   const isFlush = FLUSH_PAGES.has(currentPage);
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleMenuClick = useCallback(() => {
+    setSidebarOpen(prev => !prev);
+  }, []);
+
+  const handleSidebarClose = useCallback(() => {
+    setSidebarOpen(false);
+  }, []);
+
   return (
     <div className="flex h-full w-full overflow-hidden bg-bg-primary text-text-primary">
-      <Sidebar />
+      {/* Mobile backdrop */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+            onClick={handleSidebarClose}
+          />
+        )}
+      </AnimatePresence>
+
+      <Sidebar open={sidebarOpen} onClose={handleSidebarClose} />
+
       <div className="flex-1 flex flex-col min-w-0">
-        <TopNav />
-        <main className={`flex-1 min-h-0 ${isFlush ? 'overflow-hidden' : 'overflow-y-auto overflow-x-hidden'}`}>
+        <TopNav onMenuClick={handleMenuClick} />
+        <main className={`flex-1 min-h-0 overflow-y-auto overflow-x-hidden ${isFlush ? 'lg:overflow-hidden' : ''}`}>
           <AnimatePresence mode="wait">
             <motion.div
               key={currentPage}

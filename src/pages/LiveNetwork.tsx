@@ -54,7 +54,7 @@ export function LiveNetwork() {
     <div className="w-full h-full relative bg-bg-primary">
       <NetworkCanvas showVehicles={vehiclesActive} />
 
-      <FloatingPanel title="Layers" position="top-left" className="min-w-[170px]">
+      <FloatingPanel title="Layers" position="top-left" className="min-w-[140px] sm:min-w-[170px]">
         <div className="space-y-0.5">
           {(['network', 'traffic', 'routes', 'vehicles'] as Layer[]).map(layer => {
             const isActive = layer === 'routes' ? routesActive
@@ -89,7 +89,7 @@ export function LiveNetwork() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: 20, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-4 right-4 z-20"
+            className="absolute bottom-3 left-3 right-3 sm:bottom-auto sm:left-auto sm:right-4 sm:top-4 z-20 max-w-full sm:max-w-none"
           >
             <InspectorPanel
               title={node ? (node.label || `Node ${node.id}`) : `Road ${road?.id}`}

@@ -134,7 +134,7 @@ export function InspectorPanel({ title, onClose, children }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-bg-surface border-2 border-border p-5 w-80 shadow-[4px_4px_0_#1a1a1a]">
+    <div className="bg-bg-surface border-2 border-border p-4 sm:p-5 w-full sm:w-80 shadow-[4px_4px_0_#1a1a1a]">
       <div className="flex justify-between items-start mb-4 pb-3 border-b-2 border-border">
         <h3 className="text-[14px] font-extrabold text-text-primary uppercase tracking-wide">{title}</h3>
         <button onClick={onClose} className="text-text-muted hover:text-text-primary text-[20px] leading-none font-bold w-6 h-6 flex items-center justify-center">&times;</button>

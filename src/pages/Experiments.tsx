@@ -69,10 +69,10 @@ export function Experiments() {
   };
 
   return (
-    <div className="h-full flex flex-col overflow-hidden">
-      <div className="px-6 py-5 lg:px-8 border-b-2 border-border bg-bg-secondary flex-shrink-0">
-        <h1 className="text-[24px] font-extrabold text-text-primary uppercase tracking-tight">Research Experiments</h1>
-        <p className="text-[13px] text-text-secondary mt-1">Run predefined scenarios and export results for academic reporting.</p>
+    <div className="lg:h-full flex flex-col lg:overflow-hidden">
+      <div className="px-4 py-4 sm:px-6 sm:py-5 lg:px-8 border-b-2 border-border bg-bg-secondary flex-shrink-0">
+        <h1 className="text-[20px] sm:text-[24px] font-extrabold text-text-primary uppercase tracking-tight">Research Experiments</h1>
+        <p className="text-[12px] sm:text-[13px] text-text-secondary mt-1">Run predefined scenarios and export results for academic reporting.</p>
       </div>
 
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row">
@@ -101,10 +101,9 @@ export function Experiments() {
           ))}
         </div>
 
-        {/* CENTER: Configuration */}
-        <div className="flex-1 min-w-0 overflow-y-auto p-6 lg:p-8 border-b-2 lg:border-b-0 lg:border-r-2 border-border">
-          <h2 className="text-[20px] font-extrabold text-text-primary uppercase">{selected.name}</h2>
-          <p className="text-[14px] text-text-secondary mt-2 mb-6 leading-relaxed">{selected.desc}</p>
+        <div className="flex-1 min-w-0 overflow-y-auto p-4 sm:p-6 lg:p-8 border-b-2 lg:border-b-0 lg:border-r-2 border-border">
+          <h2 className="text-[18px] sm:text-[20px] font-extrabold text-text-primary uppercase">{selected.name}</h2>
+          <p className="text-[13px] sm:text-[14px] text-text-secondary mt-2 mb-6 leading-relaxed">{selected.desc}</p>
 
           <div className="label-editorial mb-3">Experiment Configuration</div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-0 border-2 border-border mb-6">
@@ -128,7 +127,7 @@ export function Experiments() {
         </div>
 
         {/* RIGHT: Results */}
-        <div className="lg:w-[340px] flex-shrink-0 overflow-y-auto p-6 bg-bg-secondary">
+        <div className="w-full lg:w-[340px] flex-shrink-0 lg:overflow-y-auto p-4 sm:p-6 bg-bg-secondary">
           {!result ? (
             <div className="h-full flex items-center justify-center text-[14px] text-text-muted text-center">
               Run the experiment to see results here.

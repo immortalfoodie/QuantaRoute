@@ -236,3 +236,26 @@ table { border-collapse: collapse; }
     border-bottom: 2px solid var(--color-border);
   }
 }
+
+/* Mobile: stack metric-strip to single column */
+@media (max-width: 640px) {
+  .metric-strip {
+    grid-template-columns: 1fr;
+  }
+  .metric-strip > * {
+    border-right: none;
+    border-bottom: 2px solid var(--color-border);
+    padding: 16px 20px;
+  }
+  .metric-strip > *:last-child {
+    border-bottom: none;
+  }
+}
+
+/* Mobile: reduce spacing */
+@media (max-width: 768px) {
+  :root {
+    --spacing-gutter: 16px;
+    --spacing-page: 20px;
+  }
+}
